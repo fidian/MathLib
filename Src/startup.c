@@ -23,7 +23,10 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA
  *
- * Version 1.01, 23 August 1997, Rick Huebner
+ * Version 1.1.01, 6 February 2003, Rick Huebner
+ *    Tweaked main entry point to use Entry Point setting in 68K Target control panel instead
+ *    of hijacking default entry point name as required by older CodeWarrior compilers.
+ *    No executable code changes.
  */
 #include <PalmOS.h>
 //#include <SysAll.h>
@@ -40,19 +43,16 @@
 #define LIBENTRY_OFFSET(x)	(SIZEOF_OFFSET_TABLE + x * SIZEOF_JMP)
 #define LIBNAME_OFFSET		(SIZEOF_OFFSET_TABLE + NFUNCS * SIZEOF_JMP)
 
+Err LibMain(UInt16 refnum, SysLibTblEntryPtr entryP);
+
 
 
 /* Main entry point of the library, automatically invoked by the
  * OS when the library is loaded.  Fills in the SysLibTblEntry
  * structure passed by the OS to publish the address of
- * our dispatch table.  This MUST be the first routine in
- * the code segment.  By naming it __Startup__, we sneakily
- * replace the normal startup code that Codewarrior would
- * usually insert for a regular application.  The only bad
- * part about this trick is that we have to put up with the
- * linker complaining about it; just ignore the error.
+ * our dispatch table.
  */
-Err __Startup__(UInt16 refnum, SysLibTblEntryPtr entryP) {
+Err LibMain(UInt16 refnum, SysLibTblEntryPtr entryP) {
 #pragma unused(refnum)
 	// Install pointer to our dispatch table
 	entryP->dispatchTblP = DispatchTable();
