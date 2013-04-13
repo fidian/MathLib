@@ -29,9 +29,11 @@ typedef struct MathLibData {
 	UInt16 usecount;
 } MathLibData;
 
+#ifndef __GNUC__
 // Control function prototypes
 Err __Startup__(UInt16 refnum, SysLibTblEntryPtr entryP);
 MemPtr *DispatchTable(void);
+#endif
 
 Err mathlib_open(UInt16 refnum, UInt16 version);
 Err mathlib_close(UInt16 refnum, UInt16* numappsP);

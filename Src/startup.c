@@ -34,6 +34,7 @@
 #include "MathLib.h"
 #include "MathLibPrv.h"
 
+#ifndef __GNUC__
 // Convenient macros for defining the dispatch table (below)
 #define NFUNCS				51	// Number of entry points in library
 #define SIZEOF_OFFSET		sizeof(UInt16)
@@ -43,6 +44,7 @@
 #define LIBENTRY_OFFSET(x)	(SIZEOF_OFFSET_TABLE + x * SIZEOF_JMP)
 #define LIBNAME_OFFSET		(SIZEOF_OFFSET_TABLE + NFUNCS * SIZEOF_JMP)
 
+#endif
 Err LibMain(UInt16 refnum, SysLibTblEntryPtr entryP);
 
 
@@ -54,9 +56,14 @@ Err LibMain(UInt16 refnum, SysLibTblEntryPtr entryP);
  */
 Err LibMain(UInt16 refnum, SysLibTblEntryPtr entryP) {
 #pragma unused(refnum)
+#ifndef __GNUC__
 	// Install pointer to our dispatch table
 	entryP->dispatchTblP = DispatchTable();
-	
+
+#else
+	extern void *jmptable ();
+	entryP->dispatchTblP = (void *)jmptable;
+#endif
 	// Initialize globals handle to zero until mathlib_open called
 	entryP->globalsP = 0;
 	
@@ -65,6 +72,7 @@ Err LibMain(UInt16 refnum, SysLibTblEntryPtr entryP) {
 
 
 
+#ifndef __GNUC__
 /* Library dispatch table.  Offset of library name, followed
  * by offset of each function's jmp instruction, followed by
  * a jmp for each function, followed by the library name used
@@ -181,6 +189,7 @@ table:
 	dc.b	MathLibName
 }
 
+#endif
 
 
 /* Called by the application to validate the library's version number
