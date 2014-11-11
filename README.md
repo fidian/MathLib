@@ -1,14 +1,12 @@
 MathLib
 =======
 
-This is a git mirror of MathLib, the shared Palm OS math library.  Since it was difficult to find, Tyler (fidian) has pulled together what he could find and placed it into a GitHub repository.
+This is a git mirror of MathLib, the shared Palm OS math library.  Since it was difficult to find, Tyler (@fidian) has pulled together what he could find and placed it into a GitHub repository.
 
-None of the code is from Tyler.
+None of the code is from Tyler.  Everything good has come from the hard work of Rick Huebner.
 
-Original Information
-====================
+The most recent version of this library was last updated March 24th, 2005.
 
-Last updated March 24th, 2005. Email questions and comments to me at rhuebner@radiks.net.
 
 Description
 -----------
@@ -22,6 +20,23 @@ Many thanks to Ian Goldberg of Berkeley's ISAAC Group for the excellent treatise
 Note: Due to a fundamental constraint of the `NewFloatMgr.lib` floating point emulation library, MathLib requires version 2.0 or greater of the OS. The problem is that the floating point emulation library (which must be used in order to do IEEE 754 math under OS 1.x) requires the global variable `__SoftFPSCR__`, and SysLib-style shared libraries can't have any global variables. GLib-style libraries are supposed to support globals, but can only be built or used with GCC, and I needed this library to be usable by applications written with the CodeWarrior compiler (namely MathPad and Parens). If anyone comes up with a way to build and call shared libraries using CodeWarrior on my Win98 system that will let me use the `NewFloatMgr` routines under OS 1.x, please let me know.
 
 Need more info? Check out the user's manual.
+
+
+What You'll Find
+----------------
+
+Files included in this archive:
+
+* [`MathLDoc.md`](MathLDoc.md): Documentation for MathLib
+* [`MathLib.prc`](MathLib.prc): MathLib shared library, ready to use
+* [`src/MathLib.h`](src/MathLib.h): Header file to allow your program to access MathLib functions
+* [`src/MathLib.c`](src/MathLib.c): MathLib function wrappers for more convenient use
+* [`MathLib.mcp`](MathLib.mcp): MetroWerks CodeWarrior project file for rebuilding MathLib
+* All other `.c` and `.h` files: Complete source code for MathLib
+
+If you just want to get the latest version of MathLib to load into your Pilot, all you need is MathLib.prc.  Install it like any regular Pilot application and it'll be available to any program that needs it.
+
+If you want to call MathLib functions from your own program, all you need are MathLib.prc, MathLib.h, MathLib.c, and MathLDoc.md.  Read through the doc file and you should be up and running in minutes; it's very easy to use.
 
 Maintenance Notes
 -----------------
